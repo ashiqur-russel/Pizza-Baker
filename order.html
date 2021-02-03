@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order your pizza</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Order your Pizza</h1>
+        <div class="order">
+            <div class="base-pizza">
+                <span style="font-weight: bold;">Base Pizza:</span>
+                <span>- select your pizza -</span>
+                <button id="btn-select-base-pizza" class="sky-btn">Select</button>
+                <span style="text-align: right;font-weight: bold;font-size: 20px;">$ 0.00</span>
+            </div>
+            <div class="ingredients">
+                <div class="ingredients-title">
+                    <span>Ingredients</span>
+                    <button id="btn-add-ingredient" class="sky-btn">Add</button>
+                </div>
+
+
+                <!--********************* Ingredients Table  *********************-->
+                <!--**************************************************************-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Re. Province</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="selectable_tr">
+                            <td>Cheese</td>
+                            <td>Italy</td>
+                            <td>$ 0.40</td>
+                            <td>1</td>
+                            <td>$ 0.40</td>
+                            <td>
+                                <i class="fas fa-trash icon-button" style="cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                        <tr class="selectable_tr">
+                            <td>Cheese</td>
+                            <td>Italy</td>
+                            <td>$ 0.40</td>
+                            <td>1</td>
+                            <td>$ 0.40</td>
+                            <td>
+                                <i class="fas fa-trash icon-button" style="cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                        <tr class="selectable_tr">
+                            <td>Cheese</td>
+                            <td>Italy</td>
+                            <td>$ 0.40</td>
+                            <td>1</td>
+                            <td>$ 0.40</td>
+                            <td>
+                                <i class="fas fa-trash icon-button" style="cursor: pointer;"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="total-price">
+                <span>Total Price</span>
+                <span style="text-align: right;">$ 1.20</span>
+            </div>
+        </div>
+        <button class="confirm-order-button">Confirm Order</button>
+    </div>
+
+    <!-- Modal Select Base Pizza -->
+    <div id="modal-select-base-pizza" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-title">
+                <span style="font-weight: bold;font-size: 22px;">Select your base pizza</span>
+                <span id="close-modal-select-base-pizza" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;">
+                    <span style="vertical-align: middle;">Base Pizza: </span>
+                    <select style="height: 40px;"></select>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="sky-btn" style="width: 150px;">Select</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Ingredient -->
+    <div id="modal-add-ingredient" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-title">
+                <span style="font-weight: bold;font-size: 22px;">Add Ingredient</span>
+                <span id="close-modal-add-ingredient" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Ingredient: </span>
+                    <select style="height: 40px;"></select>
+                </div>
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Region: </span>
+                    <select style="height: 40px;"></select>
+                </div>
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Price: </span>
+                    <span></span>
+                </div>
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Quantity: </span>
+                    <input type="text" style="height: 40px;">
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="sky-btn" style="width: 150px;">Add</button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
