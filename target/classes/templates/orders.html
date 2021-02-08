@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orders</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+</head>
+<body>
+    <input type="checkbox" id="check">
+    <!--**************************************************************-->
+    <!--*************************** HEADER ***************************-->
+    <!--**************************************************************-->
+    <header>
+        <label for="check">
+            <i class="fas fa-bars" id="sidebar_btn"></i>
+        </label>
+        <div class="left_area">
+            <h3>Pizza <span>Baker</span></h3>
+        </div>
+    </header>
+    <!--**************************************************************-->
+    <!--************************** SIDEBAR  **************************-->
+    <!--**************************************************************-->
+    <div class="sidebar">
+        <a href="orders"><i class="fas fa-euro-sign"></i><span>Orders</span></a>
+        <a href="ingredients"><i class="fas fa-pepper-hot"></i><span>Ingredients</span></a>
+        <a href="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+        <a href="order-your-pizza"><i class="fas fa-pizza-slice"></i><span>Order your Pizza</span></a>
+    </div>
+    <!--**************************************************************-->
+    <!--************************** CONTENT  **************************-->
+    <!--**************************************************************-->
+    <div class="content">
+        <h1>Orders</h1>
+        <div class="orders">
+
+			<div class="order" th:each="order: ${orders}">
+				<div class="order-header">
+                    <span style="font-weight: bold;font-size: 18px;">Order</span>
+                    <span style="text-align: right;" th:text="${order.getDatetime()}"></span>
+                </div>
+                <div class="order-body">
+                    <div class="order-body-row">
+                        <span th:text="${order.getBasePizza().getSize() + ' cm Pizza'}"/>
+                        <span style="text-align: right;" th:text="${'€ ' + new java.text.DecimalFormat('0.00').format(order.getBasePizza().getPrice())}"/>
+                    </div>
+                    <div th:each="ing: ${order.getIngredients()}" class="order-body-row">
+                        <span th:text="${ing.getQuantity() + ' ' + ing.getIngredientName() + ' from ' + ing.getIngredientDetail().getProvince()}"/>
+                        <span style="text-align: right;" th:text="${'€ ' + new java.text.DecimalFormat('0.00').format(ing.getPrice())}"/>
+                    </div>
+                </div>
+                <div class="order-footer">
+                    <span>Total</span>
+                    <span style="text-align: right;" th:text="${'€ ' + new java.text.DecimalFormat('0.00').format(order.getTotalPrice())}"></span>
+                </div>
+			</div>
+
+        </div>
+    </div>
+</body>
+</html>

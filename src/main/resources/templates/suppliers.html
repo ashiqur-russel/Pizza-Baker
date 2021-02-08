@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suppliers</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
+</head>
+<body>
+    <input type="checkbox" id="check">
+    <!--**************************************************************-->
+    <!--*************************** HEADER ***************************-->
+    <!--**************************************************************-->
+    <header>
+        <label for="check">
+            <i class="fas fa-bars" id="sidebar_btn"></i>
+        </label>
+        <div class="left_area">
+            <h3>Pizza <span>Bake</span></h3>
+        </div>
+    </header>
+    <!--**************************************************************-->
+    <!--************************** SIDEBAR  **************************-->
+    <!--**************************************************************-->
+    <div class="sidebar">
+        <a href="orders"><i class="fas fa-euro-sign"></i><span>Orders</span></a>
+        <a href="ingredients"><i class="fas fa-pepper-hot"></i><span>Ingredients</span></a>
+        <a href="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></a>
+        <a href="order-your-pizza"><i class="fas fa-pizza-slice"></i><span>Order your Pizza</span></a>
+    </div>
+    <!--**************************************************************-->
+    <!--************************** CONTENT  **************************-->
+    <!--**************************************************************-->
+    <div class="content">
+        <!--*************************** Title  ***************************-->
+        <!--**************************************************************-->
+        <div style="display: flex;justify-content: space-between;">
+            <div><h1>Suppliers</h1></div>
+            <div style="padding-top: 20px;"><i id="btn-add-supplier" class="fas fa-plus icon-button" style="font-size: 2em;"></i></div>
+        </div>
+        <!--********************** Suppliers Table  **********************-->
+        <!--**************************************************************-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 150px;">Name</th>
+                    <th>Ingredients</th>
+                    <th style="width: 150px;">Visibility</th>
+                    <th style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+	            <tr th:each="supplier: ${suppliers}" class="selectable_tr">
+                    <td th:text="${supplier.getName()}"/>
+                    <td th:text="${supplier.getIngredients()}"/>
+                    <td th:text="${supplier.isHidden() ? 'Hidden' : 'Show'}"/>
+                    <td>
+                        <i class="fas fa-eye" th:onclick="|onClickHideShowSupplier('${supplier.getId()}')|" ></i>
+                        &nbsp;&nbsp;
+                        <i class="fas fa-pen icon-button" th:onclick="openModalEditSupplier([[${supplier.getId()}]],[[${supplier.getName()}]],[[${supplier.getIngredients()}]],[[${supplier.isHidden()}]])" ></i>
+                        &nbsp;&nbsp;
+                        <i class="fas fa-trash icon-button" th:onclick="|onClickDeleteSupplier('${supplier.getId()}')|" ></i>
+                    </td>
+				</tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    
+    <!-- Modal Add Supplier -->
+    <div id="modal-add-supplier" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-title">
+                <span style="font-weight: bold;font-size: 22px;">Add Supplier</span>
+                <span id="close-modal-add-supplier" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Name: </span>
+                    <input id="inputName" type="text" style="height: 40px;">
+                </div>
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Ingredients: </span>
+                    <input id="inputIngredients" type="text" style="height: 40px;">
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="sky-btn" style="width: 150px;" onclick="onClickAddSupplier()">Add</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- Modal Edit Supplier -->
+    <div id="modal-edit-supplier" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-title">
+                <span style="font-weight: bold;font-size: 22px;">Edit Supplier</span>
+                <span id="close-modal-edit-supplier" class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Name: </span>
+                    <input id="inputEditName" type="text" style="height: 40px;">
+                </div>
+                <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
+                    <span style="vertical-align: middle;">Ingredients: </span>
+                    <input id="inputEditIngredients" type="text" style="height: 40px;">
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <button class="sky-btn" style="width: 150px;" onclick="onClickEditSupplier()">Edit</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    	// last supplier clicked to edit
+    	let lastSupplierIdClickedToEdit;
+    	let lastSupplierHiddenClickedToEdit;
+    
+        // initialize modal-add-supplier
+        var modalAddSupplier = document.getElementById("modal-add-supplier");
+        var btnAddSupplier = document.getElementById("btn-add-supplier");
+        var spanCloseAddSupplier = document.getElementById("close-modal-add-supplier");
+        btnAddSupplier.onclick = function() {
+            modalAddSupplier.style.display = "block";
+        }
+        spanCloseAddSupplier.onclick = function() {
+            modalAddSupplier.style.display = "none";
+        }
+
+        // initialize modal-edit-supplier
+        var modalEditSupplier = document.getElementById("modal-edit-supplier");
+        var spanCloseEditSupplier = document.getElementById("close-modal-edit-supplier");
+        function openModalEditSupplier(id, name, ingredients, isHidden) {
+        	lastSupplierIdClickedToEdit = id;
+        	lastSupplierHiddenClickedToEdit = isHidden;
+            document.getElementById('inputEditName').value = name;
+            document.getElementById('inputEditIngredients').value = ingredients;
+            modalEditSupplier.style.display = "block";
+        }
+        spanCloseEditSupplier.onclick = function() {
+            modalEditSupplier.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modalAddSupplier) {
+                modalAddSupplier.style.display = "none";
+            }else if (event.target == modalEditSupplier) {
+                modalEditSupplier.style.display = "none";
+            }
+        }
+        
+        // button hide/show supplier
+        function onClickHideShowSupplier(supplierId) {
+        	window.location.href = 'hideShowSupplier?id=' + supplierId;
+        }
+        
+        // button edit supplier
+        function onClickEditSupplier() {
+            const name = document.getElementById('inputEditName').value;
+            const ingredients = document.getElementById('inputEditIngredients').value;
+            post('/editSupplier', {id: lastSupplierIdClickedToEdit, name, ingredients, isHidden: lastSupplierHiddenClickedToEdit});
+        }
+        
+        // button delete supplier
+        function onClickDeleteSupplier(id) {
+            if(confirm('Are you sure you want to delete the supplier?')){
+                post('/deleteSupplier', {id});
+            }
+        }
+        
+        // add supplier
+        function onClickAddSupplier(){
+            const name = document.getElementById('inputName').value;
+            const ingredients = document.getElementById('inputIngredients').value;
+            post('/addSupplier', {name, ingredients});
+        }
+
+
+        /**
+         * sends a request to the specified url from a form. this will change the window location.
+         * @param {string} path the path to send the post request to
+         * @param {object} params the paramiters to add to the url
+         */
+        function post(path, params) {
+
+            // The rest of this code assumes you are not using a library.
+            // It can be made less wordy if you use one.
+            const form = document.createElement('form');
+            form.method = 'post';
+            form.action = path;
+
+            for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+                const hiddenField = document.createElement('input');
+                hiddenField.type = 'hidden';
+                hiddenField.name = key;
+                hiddenField.value = params[key];
+
+                form.appendChild(hiddenField);
+            }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+    </script>
+</body>
+</html>
