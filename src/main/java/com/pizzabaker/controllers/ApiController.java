@@ -15,22 +15,24 @@ import com.pizzabaker.entities.IngredientDetail;
 @RestController
 public class ApiController {
 
-
 	@GetMapping("/ingredientDetails")
 	public String ingredientDetails(@RequestParam("id") long id) {
 		try {
 			Ingredient ingredient = new IngredientDAO().selectIngredientById(id);
 			JSONArray jsonArray = new JSONArray();
-			for(IngredientDetail detail : ingredient.getIngredientDetails()) {
-				if(detail.isHidden() || detail.getQuantity() <= 0) continue;
+			for (IngredientDetail detail : ingredient.getIngredientDetails()) {
+				if (detail.isHidden() || detail.getQuantity() <= 0)
+					continue;
 				JSONObject jsonObject = new JSONObject();
 				jsonObject.put("id", detail.getId());
 				jsonObject.put("region", detail.getProvince());
 				jsonObject.put("price", detail.getPrice());
+				jsonObject.put("quantity", detail.getQuantity());
 				jsonArray.put(jsonObject);
 			}
 			return jsonArray.toString();
-		    //return "[{\"id\":"+id+",\"region\":\"region1\",\"price\":1.2},{\"id\":2,\"region\":\"region2\",\"price\":1.4}]";
+			// return
+			// "[{\"id\":"+id+",\"region\":\"region1\",\"price\":1.2},{\"id\":2,\"region\":\"region2\",\"price\":1.4,\"quantity\":5}]";
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "[]";
