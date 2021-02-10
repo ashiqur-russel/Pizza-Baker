@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suppliers</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
-    
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
         @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
         * {
             box-sizing: border-box;
             font-family: 'Roboto', sans-serif;
         }
+
         span {
             text-align: left;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         table tr {
             height: 30px;
         }
+
         th {
             background: #2F323A;
             color: white;
         }
+
         .base-pizza {
             display: grid;
             grid-template-columns: 100px 200px 100px auto;
         }
+
         .confirm-order-button {
             margin: 40px;
             width: 200px;
@@ -44,31 +52,38 @@
             cursor: pointer;
             outline: none;
         }
+
         .confirm-order-button:hover {
             background: #1DC4E7;
         }
+
         .container {
             background: white;
             height: 100vh;
             padding: 20px 40px;
             text-align: center;
         }
+
         .ingredients {
             margin: 30px 0px;
             min-height: 200px;
         }
+
         .ingredients-title {
             display: grid;
             grid-template-columns: auto 100px;
             margin-bottom: 10px;
         }
+
         .ingredients-title span {
             font-weight: bold;
         }
+
         .order {
             background: #F4F4F4;
             padding: 40px;
         }
+
         .sky-btn {
             background: #1DC4E7;
             height: 30px;
@@ -78,18 +93,22 @@
             border-radius: 15px;
             outline: none;
         }
+
         .sky-btn:hover {
             background: #19B3D3;
         }
+
         .title {
             font-family: 'Lobster', cursive;
             text-align: center;
             font-size: 60px;
         }
+
         .total-price {
             display: grid;
             grid-template-columns: 200px auto;
         }
+
         .total-price span {
             font-weight: bold;
             font-size: 24px;
@@ -98,17 +117,26 @@
         /************************** Modal **************************/
         /* The Modal (background) */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            padding-top: 100px;
+            /* Location of the box */
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgb(0, 0, 0);
+            /* Fallback color */
+            background-color: rgba(0, 0, 0, 0.4);
+            /* Black w/ opacity */
         }
 
         /* Modal Content */
@@ -119,6 +147,7 @@
             border: 1px solid #888;
             width: 600px;
         }
+
         .modal-body {
             display: grid;
             min-height: 200px;
@@ -141,6 +170,7 @@
         }
     </style>
 </head>
+
 <body>
     <input type="checkbox" id="check">
     <!--**************************************************************-->
@@ -163,11 +193,11 @@
         <a href="suppliers"><i class="fas fa-truck"></i><span>Suppliers</span></a>
         <a href="order-your-pizza"><i class="fas fa-pizza-slice"></i><span>Order your Pizza</span></a>
     </div>
-    
+
     <!--**************************************************************-->
     <!--************************** CONTENT  **************************-->
     <!--**************************************************************-->
-   
+
     <div class="content">
         <h1 class="title">Order your Pizza</h1>
         <div class="order">
@@ -207,7 +237,7 @@
             </div>
         </div>
         <div style="text-align:center">
-        	<button class="confirm-order-button" onclick="onClickConfirmOrder()">Confirm Order</button>
+            <button class="confirm-order-button" onclick="onClickConfirmOrder()">Confirm Order</button>
         </div>
     </div>
 
@@ -223,12 +253,9 @@
                 <div style="display: grid;grid-template-columns: 150px auto;align-items: center;">
                     <span style="vertical-align: middle;">Base Pizza: </span>
                     <select id="selectBasePizza" style="height: 40px;">
-                    	<option 
-                    		th:each="basePizza: ${basePizzas}"
-                    		th:text="${basePizza.getSize() + ' cm'}"
-                    		th:value="${basePizza.getId()}"
-                    		th:data-price="${basePizza.getPrice()}">
-                    	</option>
+                        <option th:each="basePizza: ${basePizzas}" th:text="${basePizza.getSize() + ' cm'}"
+                            th:value="${basePizza.getId()}" th:data-price="${basePizza.getPrice()}">
+                        </option>
                     </select>
                 </div>
             </div>
@@ -250,12 +277,10 @@
                 <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
                     <span style="vertical-align: middle;">Ingredient: </span>
                     <select id="selectIngredients" style="height: 40px;" onchange="onChangeSelectIngredient()">
-                    	<option value="0">- select the ingredient -</option>
-                    	<option 
-                    		th:each="ingredient: ${ingredients}"
-                    		th:text="${ingredient.getName()}"
-                    		th:value="${ingredient.getId()}">
-                    	</option>
+                        <option value="0">- select the ingredient -</option>
+                        <option th:each="ingredient: ${ingredients}" th:text="${ingredient.getName()}"
+                            th:value="${ingredient.getId()}">
+                        </option>
                     </select>
                 </div>
                 <div style="display: grid;grid-template-columns: 150px auto;align-items: center;margin: 10px 0;">
@@ -278,126 +303,140 @@
     </div>
 
     <script>
-    	// global variables
-    	let basePizzaId = -1;
-    	let basePizzaPrice = 0;
-    
+        // global variables
+        let basePizzaId = -1;
+        let basePizzaPrice = 0;
+        let vecIngDetailAdded = [];
+
         // initialize modal-select-base-pizza
         var modalSelectBasePizza = document.getElementById("modal-select-base-pizza");
         var btnSelectBasePizza = document.getElementById("btn-select-base-pizza");
         var spanCloseSelectBasePizza = document.getElementById("close-modal-select-base-pizza");
-        btnSelectBasePizza.onclick = function() {
+        btnSelectBasePizza.onclick = function () {
             modalSelectBasePizza.style.display = "block";
         }
-        spanCloseSelectBasePizza.onclick = function() {
+        spanCloseSelectBasePizza.onclick = function () {
             modalSelectBasePizza.style.display = "none";
         }
-        
+
         // initialize modal-add-ingredient
         var modalAddIngredient = document.getElementById("modal-add-ingredient");
         var btnAddIngredient = document.getElementById("btn-add-ingredient");
         var spanCloseAddIngredient = document.getElementById("close-modal-add-ingredient");
-        btnAddIngredient.onclick = function() {
+        btnAddIngredient.onclick = function () {
             modalAddIngredient.style.display = "block";
         }
-        spanCloseAddIngredient.onclick = function() {
+        spanCloseAddIngredient.onclick = function () {
             modalAddIngredient.style.display = "none";
         }
 
 
-        
+
         // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             if (event.target == modalSelectBasePizza) {
                 modalSelectBasePizza.style.display = "none";
             } else if (event.target == modalAddIngredient) {
                 modalAddIngredient.style.display = "none";
             }
         }
-        
+
         // select base pizza
-        function onClickSelectBasePizza(){
-        	const selectBasePizza = document.getElementById('selectBasePizza');
+        function onClickSelectBasePizza() {
+            const selectBasePizza = document.getElementById('selectBasePizza');
             basePizzaId = selectBasePizza.value;
-			basePizzaPrice = selectBasePizza.options[selectBasePizza.selectedIndex].dataset.price;
-			const description = selectBasePizza.options[selectBasePizza.selectedIndex].text.trim();
-        	document.getElementById('spanBasePizza').innerText = description;
-        	document.getElementById('spanBasePizzaPrice').innerText = '€ ' + Number(basePizzaPrice).toFixed(2);
+            basePizzaPrice = selectBasePizza.options[selectBasePizza.selectedIndex].dataset.price;
+            const description = selectBasePizza.options[selectBasePizza.selectedIndex].text.trim();
+            document.getElementById('spanBasePizza').innerText = description;
+            document.getElementById('spanBasePizzaPrice').innerText = '€ ' + Number(basePizzaPrice).toFixed(2);
             modalSelectBasePizza.style.display = "none";
             updateTotalPrice();
         }
-        
+
         // update total order price
-        function updateTotalPrice(){
-        	let totalPrice = Number(basePizzaPrice);
-        	const tds = document.getElementsByClassName('tdIngredientTotalPrice');
-        	for(let i = 0; i < tds.length; i++){
-        		totalPrice += Number(tds[i].dataset.price);
-        	}
-        	document.getElementById('spanTotalPrice').innerText = '€ ' + Number(totalPrice).toFixed(2);
+        function updateTotalPrice() {
+            let totalPrice = Number(basePizzaPrice);
+            const tds = document.getElementsByClassName('tdIngredientTotalPrice');
+            for (let i = 0; i < tds.length; i++) {
+                totalPrice += Number(tds[i].dataset.price);
+            }
+            document.getElementById('spanTotalPrice').innerText = '€ ' + Number(totalPrice).toFixed(2);
         }
-        
+
         // on change select ingredient
-        function onChangeSelectIngredient(){
-        	const ingredientId = document.getElementById('selectIngredients').value;
-        	document.getElementById('selectRegions').options.length = 0;
-        	if(ingredientId === '0'){
-        		return;
-        	}
-        	var xmlhttp = new XMLHttpRequest();
-		    xmlhttp.onreadystatechange = function() {
-		        if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-		           if (xmlhttp.status == 200) {
-		               const details = JSON.parse(xmlhttp.responseText);
-		               if(details.length > 0){
-		               		document.getElementById('selectRegions').insertAdjacentHTML( 'beforeend', `
+        function onChangeSelectIngredient() {
+            const ingredientId = document.getElementById('selectIngredients').value;
+            document.getElementById('selectRegions').options.length = 0;
+            if (ingredientId === '0') {
+                return;
+            }
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                    if (xmlhttp.status == 200) {
+                        const details = JSON.parse(xmlhttp.responseText);
+                        if (details.length > 0) {
+                            document.getElementById('selectRegions').insertAdjacentHTML('beforeend', `
 			               			<option value="0">- select the region -</option>
 			               		`);
-			               for(let i = 0; i < details.length; i++){
-			               		document.getElementById('selectRegions').insertAdjacentHTML( 'beforeend', `
-			               			<option value="${details[i].id}" data-price="${details[i].price}" >${details[i].region}</option>
+                            for (let i = 0; i < details.length; i++) {
+                                document.getElementById('selectRegions').insertAdjacentHTML('beforeend', `
+			               			<option value="${details[i].id}" data-price="${details[i].price}" data-quantity="${details[i].quantity}">${details[i].region}</option>
 			               		`);
-			               }
-		               }
-		           }
-		           else if (xmlhttp.status == 400) {
-		              alert('There was an error 400');
-		           }
-		           else {
-		              alert('something else other than 200 was returned');
-		           }
-		        }
-		    };
-		    xmlhttp.open("GET", "/ingredientDetails?id="+ingredientId, true);
-		    xmlhttp.send();
+                            }
+                        }
+                    }
+                    else if (xmlhttp.status == 400) {
+                        alert('There was an error 400');
+                    }
+                    else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+            xmlhttp.open("GET", "/ingredientDetails?id=" + ingredientId, true);
+            xmlhttp.send();
         }
-        
+
         // select region
-        function  onChangeSelectRegion(){
-        	const selectRegion = document.getElementById('selectRegions');
+        function onChangeSelectRegion() {
+            const selectRegion = document.getElementById('selectRegions');
             const regionId = selectRegion.value;
-			const regionPrice = selectRegion.options[selectRegion.selectedIndex].dataset.price;
-        	if(regionId === '0' || regionId === ''){
-        		document.getElementById('spanIngredientPrice').innerText = '';
-        		return;
-        	}
-        	document.getElementById('spanIngredientPrice').innerText = '€ ' + Number(regionPrice).toFixed(2);
+            const regionPrice = selectRegion.options[selectRegion.selectedIndex].dataset.price;
+            if (regionId === '0' || regionId === '') {
+                document.getElementById('spanIngredientPrice').innerText = '';
+                return;
+            }
+            document.getElementById('spanIngredientPrice').innerText = '€ ' + Number(regionPrice).toFixed(2);
         }
-        
+
         // add ingredient to table
-        function onClickAddIngredient(){
+        function onClickAddIngredient() {
             modalAddIngredient.style.display = "none";
-            
-        	const selectIngredient = document.getElementById('selectIngredients');
+
+            const selectIngredient = document.getElementById('selectIngredients');
             ingredientId = selectIngredient.value;
-			ingredientName = selectIngredient.options[selectIngredient.selectedIndex].text;
-        	const selectRegion = document.getElementById('selectRegions');
+            ingredientName = selectIngredient.options[selectIngredient.selectedIndex].text;
+            const selectRegion = document.getElementById('selectRegions');
             const regionId = selectRegion.value;
-			const regionName = selectRegion.options[selectRegion.selectedIndex].text;
-			const regionPrice = selectRegion.options[selectRegion.selectedIndex].dataset.price;
-        	const quantity = document.getElementById('inputIngredientQuantity').value;
-        	const total = Number(regionPrice)*Number(quantity);
-        	document.getElementById('tbodyIngredients').insertAdjacentHTML( 'beforeend', `
+            if (vecIngDetailAdded.includes(regionId)) {
+                alert('This ingredient has been already added');
+                return;
+            }
+            const regionName = selectRegion.options[selectRegion.selectedIndex].text;
+            const regionPrice = selectRegion.options[selectRegion.selectedIndex].dataset.price;
+            const stock = selectRegion.options[selectRegion.selectedIndex].dataset.quantity;
+            const quantity = document.getElementById('inputIngredientQuantity').value;
+            if (Number(quantity) > Number(stock)) {
+                alert(`There are only ${stock} ${ingredientName} left from ${regionName}`);
+                return;
+            }
+            if (Number(quantity) <= 0) {
+                alert('The quantity must be > 0');
+                return;
+            }
+            const total = Number(regionPrice) * Number(quantity);
+            document.getElementById('tbodyIngredients').insertAdjacentHTML('beforeend', `
        			<tr class="selectable_tr" data-id="${regionId}" data-quantity="${quantity}" data-price="${regionPrice}">
                      <td>${ingredientName}</td>
                      <td>${regionName}</td>
@@ -409,30 +448,38 @@
                      </td>
                  </tr>
        		`);
-       		updateTotalPrice();
+            vecIngDetailAdded.push(regionId);
+            updateTotalPrice();
         }
-        
+
         // remove ingredient
-        function onClickRemoveIngredient(icon){
-        	icon.parentElement.parentElement.parentElement.removeChild(icon.parentElement.parentElement);
-        	updateTotalPrice();
+        function onClickRemoveIngredient(icon) {
+            vecIngDetailAdded = vecIngDetailAdded.filter(function (value, index, arr) {
+                return value !== icon.parentElement.parentElement.dataset.id;
+            });
+            icon.parentElement.parentElement.parentElement.removeChild(icon.parentElement.parentElement);
+            updateTotalPrice();
         }
-        
+
         // confirm order
-        function onClickConfirmOrder(){
-        	if(basePizzaId <= 0){
-        		alert('You have to select your base pizza!');
-        		return;
-        	}
-        	const ingredients = [];
-        	const trIngredients = document.getElementById('tbodyIngredients').children;
-        	for(let i = 0; i < trIngredients.length; i++){
-        		const ingId = trIngredients[i].dataset.id;
-        		const ingQty = trIngredients[i].dataset.quantity;
-        		const ingPrice = trIngredients[i].dataset.price;
-        		ingredients.push(`${ingId}###${ingQty}###${ingPrice}`);
-        	}
-        	post('/addOrder', {basePizzaId, ingredients});
+        function onClickConfirmOrder() {
+            if (basePizzaId <= 0) {
+                alert('You have to select your base pizza!');
+                return;
+            }
+            const ingredients = [];
+            const trIngredients = document.getElementById('tbodyIngredients').children;
+            for (let i = 0; i < trIngredients.length; i++) {
+                const ingId = trIngredients[i].dataset.id;
+                const ingQty = trIngredients[i].dataset.quantity;
+                const ingPrice = trIngredients[i].dataset.price;
+                ingredients.push(`${ingId}###${ingQty}###${ingPrice}`);
+            }
+            if (ingredients.length == 0) {
+                alert('You have to select at least one ingredient');
+                return;
+            }
+            post('/addOrder', { basePizzaId, ingredients });
         }
 
 
@@ -450,14 +497,14 @@
             form.action = path;
 
             for (const key in params) {
-            if (params.hasOwnProperty(key)) {
-                const hiddenField = document.createElement('input');
-                hiddenField.type = 'hidden';
-                hiddenField.name = key;
-                hiddenField.value = params[key];
+                if (params.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement('input');
+                    hiddenField.type = 'hidden';
+                    hiddenField.name = key;
+                    hiddenField.value = params[key];
 
-                form.appendChild(hiddenField);
-            }
+                    form.appendChild(hiddenField);
+                }
             }
 
             document.body.appendChild(form);
@@ -465,4 +512,5 @@
         }
     </script>
 </body>
+
 </html>
