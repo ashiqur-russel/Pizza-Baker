@@ -3,76 +3,36 @@
 
 
 
-Soft wrap
-1
-# Entity Relationship Diagram
-2
-​
-3
-​
-4
-​
-5
 ![erd](erd.png)
-6
-​
-7
-​
-8
-​
-9
-​
-10
-​
-11
+
+
+
+
+
 # Packages Diagram
-12
-​
-13
+
 ![packages_diagram](packages_diagram.png)
-14
-​
-15
-​
-16
-​
-17
+
+
+
 - **Controllers:** Is the package that receives all the request from the web clients. It is responsible to use the other packages of the system, to solve the request and generate the response to the user.
-18
 - **Entities:** Here we have the POJOs of the system. Just classes without behavior, for easier manipulation of the data in memory.
-19
 - **Daos:** This package is a middleware between the database and the application. All the communication with the database is made throw this package.
-20
 - **Utils:** Just a package with utilities to not repeat code. For example, here we have a function that receives an string and normalize it.
-21
-​
-22
-​
-23
-​
-24
+
+
+
 # Technologies Used
-25
-​
-26
-​
-27
-​
-28
+
+
+
 - **Spring Boot:** As the main framework to build the web application.
-29
 - **Spring MVC:** For request resolving essentially.
-30
 - **Thymeleaf:** For templating (inject data on the html docs, and execute loops and conditions)
-31
 - **HTML5, CSS and Javascript:** For the frontend.
-32
 - **AJAX:** To get the ingredient details in the ingredients page, without refreshing the page.
-33
 - **JDBC:** To connect with the database.
-34
 - **org.json:** For json parsing.
-35
 - **Maven:** For dependencies management.
 
 
